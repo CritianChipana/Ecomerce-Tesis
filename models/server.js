@@ -19,6 +19,7 @@ class Server{
             uploads : "/api/uploads", 
             roles : "/api/roles", 
             solicitudes : "/api/solicitudes", 
+            boleta : "/api/boleta", 
 
         }
         // this.usuariosPath ="/api/usuarios" 
@@ -70,6 +71,7 @@ class Server{
         this.app.use( this.paths.uploads, require('../routes/uploads.js') );
         this.app.use( this.paths.roles, require('../routes/roles.js') );
         this.app.use( this.paths.solicitudes, require('../routes/solicitudes.js') );
+        this.app.use( this.paths.boleta, require('../routes/boletas.js') );
 
     }
 
