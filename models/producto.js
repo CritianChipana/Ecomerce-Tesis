@@ -35,14 +35,9 @@ const ProductoSchema = Schema({
         type: String,
         require: [true, "El idProducto es obligatorio"],
     },
-    mac:{
-        type: String,
-        require: [true, "La mac es obligatorio"],
-    },
-    activo:{
-        type: Boolean,
-        default: true,
-        required : [true, "El activo del producto es obligatorio"],
+    telefono : {
+        type: Number,
+        default: 0
     },
 
 });
