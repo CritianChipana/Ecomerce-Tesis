@@ -69,7 +69,7 @@ router.delete('/:id',[
     validarJWT,
     esAdminRole,
     check('id',"El id del producto no es ID valido").isMongoId() ,
-    check('id').custom( existeCategoria ),
+    // check('id').custom( existeCategoria ),
     // check('id').custom( estadoActivoCategoria ),
     validarCampos
 ], borrarProducto)
