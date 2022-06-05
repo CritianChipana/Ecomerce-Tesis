@@ -35,10 +35,7 @@ const ProductoSchema = Schema({
         type: String,
         require: [true, "El idProducto es obligatorio"],
     },
-    telefono : {
-        type: Number,
-        default: 0
-    },
+
 
 });
 

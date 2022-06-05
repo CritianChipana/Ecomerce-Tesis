@@ -47,7 +47,20 @@ const UsuarioSchema = Schema({
     google: {
         type: Boolean,
         default: false,
+    },
+    telefono : {
+        type: Number,
+        default: 0
+    },
+    longitud : {
+        type: Number,
+        default: "0,0"
+    },
+    latitud : {
+        type: Number,
+        default: "0,0"
     }
+
 
 });
 
