@@ -128,6 +128,12 @@ const existeProductoRelacionadoACategoria = async (id='')=>{
     }
 }
 
+const existeProductoPorNombreDeCategoria = async (nombre='')=>{
+    const categoria = await Categoria.findOne({nombre: nombre});
+    if( !categoria ){
+        throw new Error(`la categoria con el nombre-> ${ nombre }, no existe en la base de datos`)
+    }
+}
 
 module.exports = {
     esRoleValido,
@@ -142,5 +148,6 @@ module.exports = {
     coleccionesPermitidas,
     existeRolporID,
     existeSolicitudporID,
-    existeProductoRelacionadoACategoria
+    existeProductoRelacionadoACategoria,
+    existeProductoPorNombreDeCategoria
 }

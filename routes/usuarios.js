@@ -7,7 +7,8 @@ const { usuariosGet,
         usuariosPut,
         usuariosPath,
         usuariosDelete, 
-        usuariosPost} = require('../controllers/usuarios');
+        usuariosPost,
+        usuariosGetPositions} = require('../controllers/usuarios');
         
 const { validarJWT,
         esAdminRole,
@@ -61,7 +62,7 @@ router.delete('/:id',
 
 router.patch('/', usuariosPath);
 
-router.get('/ubicacion', usuariosGet);
+router.get('/ubicacion', usuariosGetPositions);
 
 
 module.exports = router;

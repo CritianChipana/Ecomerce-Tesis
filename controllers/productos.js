@@ -21,6 +21,17 @@ const obtnerProductos = async (req = request, res= response) => {
     });
 };
 
+const obtnerProductosByCategoria = async (req = request, res= response) => {
+
+    const { nombre } = req.params
+    const categoria = await Categoria.findOne({nombre: nombre});
+    const productos = await Producto.find({categoria: categoria._id, estado: true});
+
+    res.json({
+        productos
+    });
+};
+
 const obtnerProducto = async (req = request, res= response) => {
 
     const _id = req.params.id;
@@ -164,5 +175,6 @@ module.exports = {
     obtnerProducto,
     crearProducto,
     actualizarProducto,
-    borrarProducto
+    borrarProducto,
+    obtnerProductosByCategoria
 }

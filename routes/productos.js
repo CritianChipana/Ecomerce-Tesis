@@ -4,14 +4,16 @@ const { crearProducto,
         obtnerProductos, 
         obtnerProducto, 
         actualizarProducto, 
-        borrarProducto } = require('../controllers/productos');
+        borrarProducto, 
+        obtnerProductosByCategoria} = require('../controllers/productos');
 
 const { 
         existeCategoria,
         estadoActivoProducto,
         existeProducto,
         existecategoriaConEstadoTrue,
-        existeProductoporId } = require('../helpers/db-validators');
+        existeProductoporId,
+        existeProductoPorNombreDeCategoria } = require('../helpers/db-validators');
 const { validarJWT, esAdminRole } = require('../middlewares');
 
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -27,6 +29,23 @@ router.get('/:id',
     check('id',"El id del producto no es ID valido").isMongoId() ,
     check('id').custom( existeProductoporId ),
     // check('id').custom( estadoActivoProducto ),
+    validarCampos
+]
+, obtnerProducto )
+
+// OBTENER PRODUCTOS POR NOMBRE DE CATEGORIA
+router.get('/categoria/:nombre',
+[
+    check('nombre').custom( existeProductoPorNombreDeCategoria ),
+    validarCampos
+],
+obtnerProductosByCategoria)
+
+router.get('/:id',
+[
+    check('id',"El id del producto no es ID valido").isMongoId() ,
+    check('id').custom( existeProductoporId ),
+    check('id').custom( estadoActivoProducto ),
     validarCampos
 ]
 , obtnerProducto )

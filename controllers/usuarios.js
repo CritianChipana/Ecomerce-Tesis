@@ -34,6 +34,35 @@ const usuariosGet = async (req = request, res= response) => {
     );
 };
 
+const usuariosGetPositions = async (req = request, res= response) => {
+
+
+//Esto es una consulta mas rapida
+    const [total, usuarios] = await Promise.all([
+        Usuario.countDocuments( { estado : true }),
+        Usuario.find({ estado : true })
+    ])
+
+    const user = []
+
+    usuarios.forEach(usuario => {
+        user.push({
+            id: usuario.id,
+            nombre: usuario.nombre,
+            longitud: usuario.longitud,
+            latitud: usuario.latitud
+        })
+    });
+
+    res.json({
+        user,
+        total
+    }
+        
+    );
+};
+
+
 const usuariosPut = async (req = request, res =response ) => {
 
     const id = req.params.id;
@@ -111,5 +140,6 @@ module.exports = {
     usuariosPut,
     usuariosPost,
     usuariosPath,
-    usuariosDelete
+    usuariosDelete,
+    usuariosGetPositions
 }
