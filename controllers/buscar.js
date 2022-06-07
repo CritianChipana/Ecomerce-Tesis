@@ -13,10 +13,12 @@ const coleccionesPermitidas = [
 const buscarProductos = async( termino = '', res = response )=>{
 
     const esMongoId = ObjectId.isValid( termino );
+
     if( esMongoId ){
     
         const producto = await Producto.findById(termino)
                                     .populate('categoria','nombre');
+        
         return res.json({
             results: (producto) ? [producto] : []
         });

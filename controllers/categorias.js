@@ -123,10 +123,9 @@ const borrarCategoria = async (req, res) => {
     
         res.json({
             success: true,
-            msg: 'DELETE API',
+            msg: 'categoria eliminada',
             id,
             categoria,
-            // categoriaAnterior
         })
         
     } catch (error) {

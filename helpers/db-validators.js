@@ -122,11 +122,10 @@ const existeSolicitudporID = async (id='')=>{
 
 const existeProductoRelacionadoACategoria = async (id='')=>{
 
-    const existeRol = await Solicitud.findById(id);
-    if( !existeRol ){
-        throw new Error(`El id producto-> ${ id }, o existe en db`)
-     }
-
+    const existeProducto = await Producto.findOne({categoria:id});
+    if( existeProducto ){
+        throw new Error(`la categoria identificado por -> ${ id }, tiene productos que le hacen referencia, elimine todos los productos relacionados a esta categoria`)
+    }
 }
 
 

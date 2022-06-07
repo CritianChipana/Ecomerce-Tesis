@@ -1,7 +1,7 @@
 const { Router, response, request } = require( 'express' );
 const { check } = require('express-validator');
 const { crearCategoria, obtnerCategoria, obtnerCategorias, actualizarCategoria, borrarCategoria } = require('../controllers/categorias');
-const { existeCategoria, estadoActivoCategoria } = require('../helpers/db-validators');
+const { existeCategoria, estadoActivoCategoria, existeProductoRelacionadoACategoria } = require('../helpers/db-validators');
 const { validarJWT, esAdminRole } = require('../middlewares');
 
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -47,6 +47,7 @@ router.delete('/:id',[
     check('id',"El id de la categoria no es ID valido").isMongoId(),
     check('id').custom( existeCategoria ),
     check('id').custom( estadoActivoCategoria ),
+    check('id').custom( existeProductoRelacionadoACategoria ),
     validarCampos
 ], borrarCategoria)
 
