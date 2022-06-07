@@ -11,7 +11,7 @@ const usuariosGet = async (req = request, res= response) => {
 
     // const {q, nombre = "no ingreso nombre", apikey} = req.query;
 
-    const { limit =5, desde = 0 } = req.query;
+    const { limit =10, desde = 0 } = req.query;
     /*  const usuario = await Usuario.find( { estado : true } )
         .skip( Number( desde ) )  // podemos validar desde donde, por cualquier error
         .limit( Number(  limit));
