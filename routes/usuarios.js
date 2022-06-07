@@ -61,6 +61,7 @@ router.delete('/:id',
 
 router.patch('/', usuariosPath);
 
+router.get('/ubicacion', usuariosGet);
 
 
 module.exports = router;

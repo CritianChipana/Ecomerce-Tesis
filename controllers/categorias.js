@@ -115,17 +115,27 @@ const actualizarCategoria = async (req = request, res =response ) => {
 // Borrar Categoria
 const borrarCategoria = async (req, res) => {
 
-    const { id } = req.params;
-    
-    const categoria = await Categoria.findByIdAndUpdate( id, { estado :false } , { new : true } )
+    try {
 
-    res.json({
-        'ok':true,
-        msg: 'DELETE API',
-        id,
-        categoria,
-        // categoriaAnterior
-    })
+        const { id } = req.params;
+        
+        const categoria = await Categoria.findByIdAndUpdate( id, { estado :false } , { new : true } )
+    
+        res.json({
+            success: true,
+            msg: 'DELETE API',
+            id,
+            categoria,
+            // categoriaAnterior
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            msg: 'Comuniquese con el administrador',
+        })
+    }
+
 }
 
 module.exports = {

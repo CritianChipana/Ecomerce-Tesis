@@ -120,6 +120,15 @@ const existeSolicitudporID = async (id='')=>{
 
 }
 
+const existeProductoRelacionadoACategoria = async (id='')=>{
+
+    const existeRol = await Solicitud.findById(id);
+    if( !existeRol ){
+        throw new Error(`El id producto-> ${ id }, o existe en db`)
+     }
+
+}
+
 
 module.exports = {
     esRoleValido,
