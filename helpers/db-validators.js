@@ -142,5 +142,6 @@ module.exports = {
     existeProductoporId,
     coleccionesPermitidas,
     existeRolporID,
-    existeSolicitudporID
+    existeSolicitudporID,
+    existeProductoRelacionadoACategoria
 }

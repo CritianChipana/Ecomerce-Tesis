@@ -54,11 +54,11 @@ const UsuarioSchema = Schema({
     },
     longitud : {
         type: Number,
-        default: "0,0"
+        default: 0
     },
     latitud : {
         type: Number,
-        default: "0,0"
+        default: 0
     }
 
 
