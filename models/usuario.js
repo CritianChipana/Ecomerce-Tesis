@@ -59,8 +59,11 @@ const UsuarioSchema = Schema({
     latitud : {
         type: Number,
         default: 0
+    },
+    usuario : {
+        type: Schema.Types.ObjectId,
+        ref: 'Bodega',
     }
-
 
 });
 

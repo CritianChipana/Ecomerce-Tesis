@@ -60,8 +60,6 @@ router.post('/',
     check( "precio","El precio es obligatorio" ).not().isEmpty(),
     check( "descripcion","El descripcion es obligatorio" ).not().isEmpty(),
     check( "idProducto","El idProducto es obligatorio" ).not().isEmpty(),
-    check( "mac","La mac es obligatorio" ).not().isEmpty(),
-    check( "activo","El activo del producto es obligatorio" ).not().isEmpty(),
     // check( "disponible","El disponible es obligatorio" ).not().isEmpty(),
     validarCampos
 ]
@@ -77,8 +75,6 @@ router.put('/:id',[
     check( "precio","El precio es obligatorio" ).not().isEmpty(),
     check( "descripcion","El descripcion es obligatorio" ).not().isEmpty(),
     check( "idProducto","El idProducto es obligatorio" ).not().isEmpty(),
-    check( "mac","La mac es obligatorio" ).not().isEmpty(),
-    check( "activo","El activo del producto es obligatorio" ).not().isEmpty(),
     validarCampos
 ],actualizarProducto)
 
