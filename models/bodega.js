@@ -20,22 +20,38 @@ const BodegaSchema = Schema({
         type: Number,
         require: [true, "El telefono es obligatorio"],
     },
-    ubicacionDeBodega: {
+    latitudDeBodega: {
         type: Number,
-        require: [true, "La ubicacion de la bodega es obligatorio"],
+        require: [true, "La latitud de la bodega es obligatorio"],
+    },
+    longitudDeBodega: {
+        type: Number,
+        require: [true, "La longitud de la bodega es obligatorio"],
     },
     email:{
         type: String,
         require: [true, "El email es obligatorio"],
         unique :  true
     },
-    horarioBodega: {
+    h_inicio: {
+        type: String,
+        require: [true, "El horario de la bodega es obligatorio"],
+    },
+    h_final: {
         type: String,
         require: [true, "El horario de la bodega es obligatorio"],
     },
     youtube: {
         type: String,
-        // require: [true, "El horario de la bodega es obligatorio"],
+    },
+    facebook: {
+        type: String,
+    },
+    Instagram: {
+        type: String,
+    },
+    Twitter: {
+        type: String,
     },
     imagen: {
         type: String,

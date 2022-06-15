@@ -15,9 +15,11 @@ router.post('/',
     check( "descripcion","La descripcion es obligatoria" ).not().isEmpty(),
     check( "nombrePropietario","El nombre del propietario es obligatoria" ).not().isEmpty(),
     check( "telefono","El telefono es obligarotio" ).not().isEmpty(),
-    check( "ubicacionDeBodega","La ubicacion de la bodega es obligatria" ).not().isEmpty(),
+    check( "latitudDeBodega","La latitud de la bodega es obligatria" ).not().isEmpty(),
+    check( "longitudDeBodega","La longitud de la bodega es obligatria" ).not().isEmpty(),
     check( "email","El email es obligatorio" ).not().isEmpty(),
-    check( "horarioBodega","El horario de atencion de la bodega es obligatorio" ).not().isEmpty(),
+    check( "h_inicio","El horario de inicio de atencion de la bodega es obligatorio" ).not().isEmpty(),
+    check( "h_final","El horario final de atencion de la bodega es obligatorio" ).not().isEmpty(),
     check( "imagen","La imagen es obligatoria" ).not().isEmpty(),
     validarCampos
 ]
