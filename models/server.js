@@ -20,6 +20,7 @@ class Server{
             roles : "/api/roles", 
             solicitudes : "/api/solicitudes", 
             boleta : "/api/boleta", 
+            bodega : "/api/bodega", 
 
         }
         // this.usuariosPath ="/api/usuarios" 
@@ -72,6 +73,7 @@ class Server{
         this.app.use( this.paths.roles, require('../routes/roles.js') );
         this.app.use( this.paths.solicitudes, require('../routes/solicitudes.js') );
         this.app.use( this.paths.boleta, require('../routes/boletas.js') );
+        this.app.use( this.paths.bodega, require('../routes/bodegas.js') );
 
     }
 
