@@ -74,7 +74,6 @@ router.put('/:id',[
     check( "nombre","El nombre es obligatorio" ).not().isEmpty(),
     check( "precio","El precio es obligatorio" ).not().isEmpty(),
     check( "descripcion","El descripcion es obligatorio" ).not().isEmpty(),
-    check( "idProducto","El idProducto es obligatorio" ).not().isEmpty(),
     validarCampos
 ],actualizarProducto)
 

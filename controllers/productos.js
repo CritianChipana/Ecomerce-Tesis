@@ -90,14 +90,12 @@ const crearProducto = async (req, res =response) => {
 const actualizarProducto = async (req = request, res =response ) => {
 
     const id = req.params.id;
-    const {precio, 
+    const {
+        precio, 
         descripcion, 
         disponible ,
         categoria, 
         img,
-        idProducto,
-        mac,
-        activo
     } = req.body;
 
     const nombre = req.body.nombre.toUpperCase();
@@ -105,20 +103,14 @@ const actualizarProducto = async (req = request, res =response ) => {
     const nombrebica = await Producto.findOne( { 
         nombre, 
         estado:true
-    } )
+    })
 
     const validarestadocategoria = await Categoria.findById(categoria);
-    if(!validarestadocategoria.estado){
+    if(!validarestadocategoria?.estado){
         return res.status( 400 ).json({
             msg:"Verifique el estado de la categoria"
         })
     }
-
-    // if( nombrebica ){89
-    //     return res.status( 404).json({
-    //         msg:"El producto ya existe - romel mmgvzo!!"
-    //     });
-    // }
 
     const productoID = await Producto.findById(id)
 
@@ -128,7 +120,7 @@ const actualizarProducto = async (req = request, res =response ) => {
       //  Si el producto existe
         if (productoDB) {
           return res.status(400).json({
-            msg:`  La Producto ${productoDB.nombre}, ya existe, Romel mmgvzo!!`,
+            msg:`  La Producto ${productoDB.nombre}, ya existe`,
           });
         }
       }
@@ -141,9 +133,7 @@ const actualizarProducto = async (req = request, res =response ) => {
             descripcion,
             disponible,
             img,
-            idProducto,
-            mac,
-            activo
+            categoria
         },
         { new: true })
 
