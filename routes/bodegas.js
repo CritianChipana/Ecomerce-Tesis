@@ -6,6 +6,7 @@ const { crearbodega,
     getBodegaById,
     updateBodega,
     deleteBodega } = require('../controllers/bodegas');
+const { existeBodegueroConEstadoTrue } = require('../helpers/db-validators');
 
 const { validarJWT } = require('../middlewares');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -35,6 +36,7 @@ router.get('/', getBodegas);
 router.get('/:id',
 [
     check("id","El id no es valido").isMongoId(),
+    check('id').custom(existeBodegueroConEstadoTrue),
     validarCampos
 ]
 , getBodegaById);
@@ -54,6 +56,7 @@ router.put('/:id',
     check( "h_inicio","El horario de inicio de atencion de la bodega es obligatorio" ).not().isEmpty(),
     check( "h_final","El horario final de atencion de la bodega es obligatorio" ).not().isEmpty(),
     check( "imagen","La imagen es obligatoria" ).not().isEmpty(),
+    check('id').custom(existeBodegueroConEstadoTrue),
     validarCampos
 ],
 updateBodega);
@@ -62,6 +65,8 @@ router.delete('/:id',
 [
     validarJWT,
     check("id","El id no es valido").isMongoId(),
+    check('id').custom(existeBodegueroConEstadoTrue),
+
     validarCampos
 ]
 , deleteBodega);

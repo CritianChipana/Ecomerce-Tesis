@@ -136,14 +136,15 @@ const existeProductoPorNombreDeCategoria = async (nombre = '') => {
 }
 
 
-const existeBodegueroConEstadoTrue = async (id = '') => {
+const existeBodegueroConEstadoTrue = async (id) => {
 
     // Verificar si el nombre existe Existe
-    const existeBodega = await Bodega.findOne({ state: true, id });
-    if (existeBodega) {
-        throw new Error(`El bodeguero registrado con ${id}, no existe!! `)
+    const existeBodega = await Bodega.findOne({ estado: true, _id:id });
+    if (!existeBodega) {
+        throw new Error(`El bodeguero identificado con ${id}, no existe!! `)
     }
 }
+
 
 module.exports = {
     esRoleValido,

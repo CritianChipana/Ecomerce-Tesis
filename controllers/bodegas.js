@@ -31,7 +31,7 @@ const crearbodega = async (req, res = response) => {
             ...body,
             nombre,
             email,
-            // usuario: req.usuario._id,
+            estado: true
         }
 
         const bodega = new Bodega(data);
@@ -57,7 +57,7 @@ const crearbodega = async (req, res = response) => {
 const getBodegas = async (req, res = response) => {
 
     try {
-        const bodegas = await Bodega.find();
+        const bodegas = await Bodega.find({ estado: true });
         res.json({
             success: true,
             bodegas
@@ -74,7 +74,7 @@ const getBodegaById = async (req, res = response) => {
 
     try {
         const { id } = req.params;
-        const bodega = await Bodega.findById(id);
+        const bodega = await Bodega.findOne({ _id: id, estado: true });
         res.json({
             success: true,
             bodega
@@ -149,18 +149,18 @@ const deleteBodega = async (req, res = response) => {
             msg: "Bodega eliminada correctamente",
         })
 
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                msg: 'No se pudo eliminar bodega, Comuniquese con el administrador',
-            })
-        }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            msg: 'No se pudo eliminar bodega, Comuniquese con el administrador',
+        })
+    }
 }
 
 module.exports = {
-        crearbodega,
-        getBodegas,
-        getBodegaById,
-        updateBodega,
-        deleteBodega,
-    }
+    crearbodega,
+    getBodegas,
+    getBodegaById,
+    updateBodega,
+    deleteBodega,
+}
