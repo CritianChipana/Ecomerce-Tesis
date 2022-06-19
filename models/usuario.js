@@ -12,7 +12,7 @@
 }
 */
 
-const {  Schema, model } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const UsuarioSchema = Schema({
 
@@ -32,13 +32,13 @@ const UsuarioSchema = Schema({
 
     },
     img: {
-        type : String
+        type: String
     },
     rol: {
         type: String,
         required: true,
-        default:"USER_ROLE",
-        emun: ['ADMIN_ROLE','USER_ROLE'] 
+        default: "USER_ROLE",
+        emun: ['ADMIN_ROLE', 'USER_ROLE']
     },
     estado: {
         type: Boolean,
@@ -48,27 +48,31 @@ const UsuarioSchema = Schema({
         type: Boolean,
         default: false,
     },
-    telefono : {
+    telefono: {
         type: Number,
         default: 0
     },
-    longitud : {
+    longitud: {
         type: Number,
         default: 0
     },
-    latitud : {
+    latitud: {
         type: Number,
         default: 0
     },
-    usuario : {
+    usuario: {
         type: Schema.Types.ObjectId,
         ref: 'Bodega',
+    },
+    bodegero: {
+        type: Schema.Types.ObjectId,
+        ref: 'Bodega'
     }
 
 });
 
-UsuarioSchema.methods.toJSON = function(){
-    const {_id, __v, password, ...usuarioRestoInformacion } = this.toObject();
+UsuarioSchema.methods.toJSON = function () {
+    const { _id, __v, password, ...usuarioRestoInformacion } = this.toObject();
     usuarioRestoInformacion.uid = _id;
     return usuarioRestoInformacion;
 }
@@ -76,7 +80,7 @@ UsuarioSchema.methods.toJSON = function(){
 
 
 
-module.exports = model( 'Usuario',UsuarioSchema );
+module.exports = model('Usuario', UsuarioSchema);
 
 
 
