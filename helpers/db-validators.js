@@ -147,8 +147,6 @@ const existeBodegueroConEstadoTrue = async (id) => {
 const isVaidIdProducto = async (productos) => {
 
     productos.forEach(async (producto) => {
-        console.log(producto.producto)
-        console.log(producto)
         const existeProducto = await Producto.find(producto.producto);
         if (!existeProducto) {
             throw new Error(`El producto-> ${producto.producto}, no existe`)
