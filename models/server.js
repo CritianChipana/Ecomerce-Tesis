@@ -18,8 +18,8 @@ class Server{
             uploads : "/api/uploads", 
             roles : "/api/roles", 
             solicitudes : "/api/solicitudes", 
-            boleta : "/api/boleta", 
             bodega : "/api/bodega", 
+            pedido : "/api/pedido", 
 
         }
         // this.usuariosPath ="/api/usuarios" 
@@ -58,11 +58,9 @@ class Server{
             tempFileDir : '/tmp/',
             createParentPath: true
         }));
-
     }
 
     route(){
-
         this.app.use( this.paths.auth, require('../routes/auth.js') );
         this.app.use( this.paths.categorias, require('../routes/categorias.js') );
         this.app.use( this.paths.productos, require('../routes/productos.js') );
@@ -70,10 +68,8 @@ class Server{
         this.app.use( this.paths.usuario, require('../routes/usuarios.js') );
         this.app.use( this.paths.uploads, require('../routes/uploads.js') );
         this.app.use( this.paths.roles, require('../routes/roles.js') );
-        this.app.use( this.paths.solicitudes, require('../routes/solicitudes.js') );
-        this.app.use( this.paths.boleta, require('../routes/boletas.js') );
-        this.app.use( this.paths.bodega, require('../routes/bodegas.js') );
-
+        this.app.use( this.paths.bodega, require('../routes/bodegas.js'));
+        this.app.use( this.paths.pedido, require('../routes/pedidos.js'));
     }
 
     listen(){
@@ -81,10 +77,6 @@ class Server{
             console.log("Corriendo en el puerto", this.port )
         })
     }
-
-
 }
-
-
 
 module.exports = Server;

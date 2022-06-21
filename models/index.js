@@ -6,8 +6,9 @@ const Server = require('./server');
 const Usuario = require('./usuario');
 const Producto = require('./producto');
 const Solicitud = require('./solicitud');
-const Boleta = require('./boleta');
+const Pedido = require('./pedido');
 const Bodega = require('./bodega');
+const DetallePedido = require('./detallePedido');
 
 module.exports = {
    Categoria,
@@ -16,6 +17,7 @@ module.exports = {
    Usuario,
    Producto,
    Solicitud,
-   Boleta,
+   Pedido,
    Bodega,
+   DetallePedido
 }

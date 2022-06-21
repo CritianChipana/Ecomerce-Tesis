@@ -12,7 +12,7 @@ const obtnerProductos = async (req = request, res = response) => {
         Producto.countDocuments({ estado: true }),
 
         Producto.find({ estado: true }).populate("usuario", ["_id"])
-            .populate('categoria', ["_id", "usuario"])
+            .populate('categoria', ["_id", "usuario", "nombre"])
     ]);
 
     res.json({

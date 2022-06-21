@@ -138,11 +138,22 @@ const existeProductoPorNombreDeCategoria = async (nombre = '') => {
 
 const existeBodegueroConEstadoTrue = async (id) => {
 
-    // Verificar si el nombre existe Existe
-    const existeBodega = await Bodega.findOne({ estado: true, _id:id });
+    const existeBodega = await Bodega.findOne({ estado: true, _id: id });
     if (!existeBodega) {
         throw new Error(`El bodeguero identificado con ${id}, no existe!! `)
     }
+}
+
+const isVaidIdProducto = async (productos) => {
+
+    productos.forEach(async (producto) => {
+        console.log(producto.producto)
+        console.log(producto)
+        const existeProducto = await Producto.find(producto.producto);
+        if (!existeProducto) {
+            throw new Error(`El producto-> ${producto.producto}, no existe`)
+        }
+    });
 }
 
 
@@ -161,5 +172,6 @@ module.exports = {
     existeSolicitudporID,
     existeProductoRelacionadoACategoria,
     existeProductoPorNombreDeCategoria,
-    existeBodegueroConEstadoTrue
+    existeBodegueroConEstadoTrue,
+    isVaidIdProducto
 }
