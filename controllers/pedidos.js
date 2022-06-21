@@ -63,6 +63,27 @@ const getPedidos = async (req = request, res = response) => {
     }
 }
 
+const getPedidosByIdUser = async (req = request, res = response) => {
+
+    try {
+
+        const { _id } = req.usuario
+
+        const pedidos = await Pedido.find({ estado: true, usuario : _id });
+        res.status(200).json({
+            success: true,
+            data: pedidos
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            msg: 'No se pudo obtener los pedidos, Contacte al administrador',
+            data: error
+        });
+    }
+}
+
 const getDetallePedidoById = async (req = request, res = response) => {
 
     try {
@@ -148,5 +169,6 @@ module.exports = {
     getPedidos,
     getDetallePedidoById,
     updatePedido,
-    deletePedido
+    deletePedido,
+    getPedidosByIdUser
 }

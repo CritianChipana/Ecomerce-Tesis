@@ -60,4 +60,11 @@ router.delete('/:id',
 ]
 , deletePedido);
 
+router.get('/user',
+[
+    validarJWT,
+    validarCampos
+]
+, getDetallePedidoById);
+
 module.exports = router;
