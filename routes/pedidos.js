@@ -1,6 +1,6 @@
 const { Router } = require( 'express' );
 const { check } = require('express-validator');
-const { crearPedido } = require('../controllers/pedidos');
+const { crearPedido, getPedidos } = require('../controllers/pedidos');
 const { isVaidIdProducto } = require('../helpers/db-validators');
 
 
@@ -20,7 +20,8 @@ router.post('/',
 ]
 ,crearPedido);
 
-// router.get('/', getBodegas);
+router.get('/', getPedidos);
+
 // router.get('/:id',
 // [
 //     check("id","El id no es valido").isMongoId(),

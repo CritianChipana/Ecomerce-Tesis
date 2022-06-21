@@ -6,9 +6,7 @@ const { Pedido, DetallePedido } = require('../models');
 const crearPedido = async (req = request, res = response) => {
 
     try {
-
         const { estado, productos, ...body } = req.body;
-
         const data = {
             ...body,
             usuario: req.usuario._id,
@@ -46,7 +44,29 @@ const crearPedido = async (req = request, res = response) => {
 
 }
 
+const getPedidos = async (req = request, res = response) => {
+
+    try {
+        const pedidos = await Pedido.find({ estado: true });
+        res.status(200).json({
+            success: true,
+            data: pedidos
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            msg: 'No se pudo obtener los pedidos, Contacte al administrador',
+            data: error
+        });
+    }
+}
+
+
+
+
 
 module.exports = {
-    crearPedido
+    crearPedido,
+    getPedidos
 }
