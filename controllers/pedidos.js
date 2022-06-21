@@ -1,7 +1,7 @@
 const { response, request } = require('express');
 
 const bcryptjs = require('bcryptjs');
-const { Pedido, DetallePedido } = require('../models');
+const { Pedido, DetallePedido, Bodega } = require('../models');
 
 const crearPedido = async (req = request, res = response) => {
 
@@ -24,7 +24,7 @@ const crearPedido = async (req = request, res = response) => {
                 total: precio * cantidad,
                 precio,
                 cantidad,
-                producto: _id
+                producto: _id,
             });
             await detallePedido.save();
         });
@@ -48,7 +48,18 @@ const crearPedido = async (req = request, res = response) => {
 const getPedidos = async (req = request, res = response) => {
 
     try {
-        const pedidos = await Pedido.find({ estado: true });
+        const { _id } = req.usuario;
+
+        const bodega = await Bodega.findOne({ usuario: _id });
+
+        if( !bodega ){
+            res.status(400).json({
+                success: false,
+                msg: 'No se encontro la bodega'
+            });
+        }
+
+        const pedidos = await Pedido.find({ estado: true, bodega: bodega._id });
         res.status(200).json({
             success: true,
             data: pedidos

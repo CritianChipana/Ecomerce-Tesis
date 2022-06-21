@@ -26,6 +26,10 @@ const PedidoSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
         required :  true
+    },
+    bodega : {
+        type: Schema.Types.ObjectId,
+        ref: 'Bodega',
     }
 });
 
