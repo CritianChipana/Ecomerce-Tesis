@@ -135,7 +135,6 @@ const existeProductoPorNombreDeCategoria = async (nombre = '') => {
     }
 }
 
-
 const existeBodegueroConEstadoTrue = async (id) => {
 
     const existeBodega = await Bodega.findOne({ estado: true, _id: id });
