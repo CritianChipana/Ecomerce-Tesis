@@ -17,13 +17,14 @@ const crearPedido = async (req = request, res = response) => {
         pedido.save();
 
         productos.forEach(async (producto) => {
-            const { cantidad, precio, ...data } = producto;
+            const { cantidad, precio, _id, ...data } = producto;
             const detallePedido = new DetallePedido({
                 ...data,
                 pedido: pedido._id,
                 total: precio * cantidad,
                 precio,
-                cantidad
+                cantidad,
+                producto: _id
             });
             await detallePedido.save();
         });
