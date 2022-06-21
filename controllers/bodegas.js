@@ -31,6 +31,7 @@ const crearbodega = async (req, res = response) => {
             ...body,
             nombre,
             email,
+            usuario: req.usuario._id,
             estado: true
         }
 

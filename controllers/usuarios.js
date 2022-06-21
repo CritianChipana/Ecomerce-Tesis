@@ -4,6 +4,7 @@ const bcryptjs = require('bcryptjs');
 const { generarJWT } = require('../helpers/generarJWT.JS');
 
 const Usuario =  require('../models/usuario');
+const { Bodega } = require('../models');
 
 
 const usuariosGet = async (req = request, res= response) => {
@@ -139,10 +140,18 @@ const datosDelaBodegaByIdUser = async (req, res) => {
 
     try {
         const { id } = req.params;
-        const usuario = await Usuario.findById( id );
+        const bodega = await Bodega.find({ usuario: id , estado: true });
+
+        if( bodega.length === 0 ){
+            return res.status(400).json({
+                success: false,
+                msg: 'No existe la bodega'
+            });
+        }
+
         res.json({
             'ok':true,
-            usuario
+            bodega
         })
     }
     catch (error) {
