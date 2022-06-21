@@ -135,11 +135,30 @@ const usuariosDelete = async (req, res) => {
     })
 }
 
+const datosDelaBodegaByIdUser = async (req, res) => {
+
+    try {
+        const { id } = req.params;
+        const usuario = await Usuario.findById( id );
+        res.json({
+            'ok':true,
+            usuario
+        })
+    }
+    catch (error) {
+        res.json({
+            'ok':false,
+            error
+        })
+    }
+}
+
 module.exports = {
     usuariosGet,
     usuariosPut,
     usuariosPost,
     usuariosPath,
     usuariosDelete,
-    usuariosGetPositions
+    usuariosGetPositions,
+    datosDelaBodegaByIdUser
 }

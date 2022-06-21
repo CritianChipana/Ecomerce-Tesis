@@ -8,7 +8,8 @@ const { usuariosGet,
         usuariosPath,
         usuariosDelete, 
         usuariosPost,
-        usuariosGetPositions} = require('../controllers/usuarios');
+        usuariosGetPositions,
+        datosDelaBodegaByIdUser} = require('../controllers/usuarios');
         
 const { validarJWT,
         esAdminRole,
@@ -64,5 +65,13 @@ router.patch('/', usuariosPath);
 
 router.get('/ubicacion', usuariosGetPositions);
 
+router.post('/datosBodega/:id',
+[
+        validarJWT,
+        check('id',"El id del usuario no es ID valido").isMongoId(),
+        check('id').custom(existeUsuariPorId),
+        validarCampos
+],
+datosDelaBodegaByIdUser);
 
 module.exports = router;
