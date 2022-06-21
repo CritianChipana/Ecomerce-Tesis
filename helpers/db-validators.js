@@ -1,5 +1,5 @@
 const Usuario = require("../models/usuario");
-const { Categoria, Role, Producto, Solicitud, Bodega } = require("./../models");
+const { Categoria, Role, Producto, Bodega, Pedido } = require("./../models");
 
 
 const esRoleValido = async (rol = '') => {
@@ -156,6 +156,15 @@ const isVaidIdProducto = async (productos) => {
     });
 }
 
+const existePedidoId = async (id) => {
+    
+    const existePedido = await Pedido.findById(id);
+    if (!existePedido) {
+        throw new Error(`El pedido identificado con ${id}, no existe!! `)
+    }
+
+}
+
 
 module.exports = {
     esRoleValido,
@@ -173,5 +182,6 @@ module.exports = {
     existeProductoRelacionadoACategoria,
     existeProductoPorNombreDeCategoria,
     existeBodegueroConEstadoTrue,
-    isVaidIdProducto
+    isVaidIdProducto,
+    existePedidoId
 }

@@ -1,7 +1,7 @@
 const { Router } = require( 'express' );
 const { check } = require('express-validator');
-const { crearPedido, getPedidos } = require('../controllers/pedidos');
-const { isVaidIdProducto } = require('../helpers/db-validators');
+const { crearPedido, getPedidos, getDetallePedidoById, deletePedido } = require('../controllers/pedidos');
+const { isVaidIdProducto, existePedidoId } = require('../helpers/db-validators');
 
 
 const { validarJWT } = require('../middlewares');
@@ -22,13 +22,13 @@ router.post('/',
 
 router.get('/', getPedidos);
 
-// router.get('/:id',
-// [
-//     check("id","El id no es valido").isMongoId(),
-//     check('id').custom(existeBodegueroConEstadoTrue),
-//     validarCampos
-// ]
-// , getBodegaById);
+router.get('/:id',
+[
+    check("id","El id no es valido").isMongoId(),
+    check('id').custom(existePedidoId),
+    validarCampos
+]
+, getDetallePedidoById);
 
 // router.put('/:id',
 // [
@@ -50,14 +50,14 @@ router.get('/', getPedidos);
 // ],
 // updateBodega);
 
-// router.delete('/:id', 
-// [
-//     validarJWT,
-//     check("id","El id no es valido").isMongoId(),
-//     check('id').custom(existeBodegueroConEstadoTrue),
+router.delete('/:id', 
+[
+    validarJWT,
+    check("id","El id no es valido").isMongoId(),
+    check('id').custom(existePedidoId),
 
-//     validarCampos
-// ]
-// , deleteBodega);
+    validarCampos
+]
+, deletePedido);
 
 module.exports = router;
