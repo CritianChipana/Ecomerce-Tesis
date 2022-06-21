@@ -6,11 +6,23 @@ const { Pedido, DetallePedido, Bodega } = require('../models');
 const crearPedido = async (req = request, res = response) => {
 
     try {
+
         const { estado, productos, ...body } = req.body;
+
+        const bodeguero = await Bodega.findOne({ usuario: productos[0].usuario });
+
+        if( !bodeguero ){
+            return res.status(400).json({
+                success: false,
+                msg: 'No existe un bodeguero asociado a este usuario'
+            });
+        }
+
         const data = {
             ...body,
             usuario: req.usuario._id,
-            estado: true
+            estado: true,
+            bodega: bodeguero._id
         }
 
         const pedido = new Pedido(data);

@@ -16,8 +16,8 @@ router.post('/',
     check( "importe","El importe es obligatoria" ).isNumeric(),
     check( "fecha","La fecha es obligatoria" ).not().isEmpty(),
     check('productos').custom(isVaidIdProducto),
-    check( "bodega","La bodega es obligatoria" ).not().isEmpty(),
-    check( "bodega","La bodega no es valido como id de mongoos" ).isMongoId(),
+    // check( "usuario","El id del usuario es obligatoria" ).not().isEmpty(),
+    // check( "usuario","El id del usuario no es valido como id de mongoos" ).isMongoId(),
     validarCampos
 ]
 ,crearPedido);
