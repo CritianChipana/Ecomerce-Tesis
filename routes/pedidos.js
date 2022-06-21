@@ -1,6 +1,6 @@
 const { Router } = require( 'express' );
 const { check } = require('express-validator');
-const { crearPedido, getPedidos, getDetallePedidoById, deletePedido } = require('../controllers/pedidos');
+const { crearPedido, getPedidos, getDetallePedidoById, deletePedido, getPedidosByIdUser } = require('../controllers/pedidos');
 const { isVaidIdProducto, existePedidoId } = require('../helpers/db-validators');
 
 
@@ -21,6 +21,13 @@ router.post('/',
 ,crearPedido);
 
 router.get('/', getPedidos);
+
+router.get('/user',
+[
+    validarJWT,
+    validarCampos
+]
+, getPedidosByIdUser);
 
 router.get('/:id',
 [
@@ -60,11 +67,6 @@ router.delete('/:id',
 ]
 , deletePedido);
 
-router.get('/user',
-[
-    validarJWT,
-    validarCampos
-]
-, getDetallePedidoById);
+
 
 module.exports = router;
