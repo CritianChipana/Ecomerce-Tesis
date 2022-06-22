@@ -56,20 +56,17 @@ const crearPedido = async (req = request, res = response) => {
 }
 
 const getPedidos = async (req = request, res = response) => {
-
-    
     try {
         const { _id } = req.usuario;
 
-        const bodega = await Bodega.findOne({ usuario: _id });
+        const existePedidos = await Bodega.findOne({ usuario: _id });
 
-        if( !bodega ){
+        if( !existePedidos ){
             res.status(400).json({
                 success: false,
-                msg: 'No se encontro la bodega'
+                msg: 'No se encontro pedidos del usuario'
             });
         }
-
         const pedidos = await Pedido.find({ estado: true, bodega: bodega._id });
         res.status(200).json({
             success: true,
