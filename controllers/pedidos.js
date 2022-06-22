@@ -67,7 +67,7 @@ const getPedidos = async (req = request, res = response) => {
                 msg: 'No se encontro pedidos del usuario'
             });
         }
-        const pedidos = await Pedido.find({ estado: true, bodega: bodega._id });
+        const pedidos = await Pedido.find({ estado: true, bodega: existePedidos._id });
         res.status(200).json({
             success: true,
             data: pedidos
@@ -76,7 +76,7 @@ const getPedidos = async (req = request, res = response) => {
     catch (error) {
         res.status(500).json({
             success: false,
-            msg: 'No se pudo obtener los pedidos, Contacte al administrador',
+            msg: 'No se pudo obtener los pedidos, Contacte al administrador.',
             data: error
         });
     }
