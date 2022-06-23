@@ -107,7 +107,8 @@ const getDetallePedidoById = async (req = request, res = response) => {
 
     try {
         const { id } = req.params;
-        const detallePedido = await DetallePedido.find({ pedido: id });
+        const detallePedido = await DetallePedido.find({ pedido: id })
+        .populate('producto');
         res.status(200).json({
             success: true,
             detallePedido: detallePedido
