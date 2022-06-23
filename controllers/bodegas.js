@@ -95,6 +95,14 @@ const updateBodega = async (req, res = response) => {
         const { id } = req.params;
         const { estado, usuario, email, ...body } = req.body;
         const nombre = req.body.nombre.toUpperCase();
+        const existeNombre = await Bodega.findOne({ nombre });
+        if (!!existeNombre && existeNombre._id != id) {
+            return res.status(400).json({
+                success: false,
+                msg: " El nombre de la bodega ya existe"
+            })
+        }
+
         const bodegaBD = await Bodega.findById(id);
         if (!bodegaBD) {
             return res.status(400).json({
