@@ -1,7 +1,7 @@
 const { response, request } = require('express');
 
 const bcryptjs = require('bcryptjs');
-const { Bodega } = require('../models');
+const { Bodega, Producto } = require('../models');
 
 const crearbodega = async (req, res = response) => {
 
@@ -166,10 +166,38 @@ const deleteBodega = async (req, res = response) => {
     }
 }
 
+const obtenerProductoByIdBodega = async (req, res = response) => {
+
+    try {
+        const { id } = req.params;
+        const bodega = await Bodega.findById(id);
+        if (!bodega) {
+            return res.status(400).json({
+                success: false,
+                msg: " No existe la bodega"
+            })
+        }
+
+        const productos = await Producto.find({ usuario: bodega.usuario });
+
+        res.status(200).json({
+            success: true,
+            productos
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            msg: 'No se pudo obtener productos de la bodega, Comuniquese con el administrador',
+        })
+    }
+}
+
 module.exports = {
     crearbodega,
     getBodegas,
     getBodegaById,
     updateBodega,
     deleteBodega,
+    obtenerProductoByIdBodega
 }

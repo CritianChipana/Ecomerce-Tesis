@@ -5,8 +5,9 @@ const { crearbodega,
     getBodegas,
     getBodegaById,
     updateBodega,
-    deleteBodega } = require('../controllers/bodegas');
-const { existeBodegueroConEstadoTrue } = require('../helpers/db-validators');
+    deleteBodega, 
+    obtenerProductoByIdBodega} = require('../controllers/bodegas');
+const { existeBodegueroConEstadoTrue, existeBodegaConestadoTrue } = require('../helpers/db-validators');
 
 const { validarJWT } = require('../middlewares');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -70,5 +71,14 @@ router.delete('/:id',
     validarCampos
 ]
 , deleteBodega);
+
+// Obtener los productos por id del bodeguero
+router.get('/productos/:id',
+    [
+        check('id', "El id del bodeguero no es ID valido").isMongoId(),
+        check('id').custom(existeBodegaConestadoTrue),
+        validarCampos
+    ]
+    , obtenerProductoByIdBodega)
 
 module.exports = router;

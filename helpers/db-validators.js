@@ -159,7 +159,14 @@ const existePedidoId = async (id) => {
     if (!existePedido) {
         throw new Error(`El pedido identificado con ${id}, no existe!! `)
     }
+}
 
+const existeBodegaConestadoTrue = async (id) => {
+
+    const existeBodega = await Bodega.findOne({ estado: true, _id: id });
+    if (!existeBodega) {
+        throw new Error(`El bodeguero identificado con ${id}, no existe!! `)
+    }
 }
 
 
@@ -180,5 +187,6 @@ module.exports = {
     existeProductoPorNombreDeCategoria,
     existeBodegueroConEstadoTrue,
     isVaidIdProducto,
-    existePedidoId
+    existePedidoId,
+    existeBodegaConestadoTrue
 }
