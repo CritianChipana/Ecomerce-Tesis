@@ -178,7 +178,7 @@ const obtenerProductoByIdBodega = async (req, res = response) => {
             })
         }
 
-        const productos = await Producto.find({ usuario: bodega.usuario });
+        const productos = await Producto.find({ usuario: bodega.usuario, estado: true });
 
         res.status(200).json({
             success: true,
