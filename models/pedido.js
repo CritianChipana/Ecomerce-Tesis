@@ -1,42 +1,47 @@
 
-const { Schema, model } = require( 'mongoose' );
+const { Schema, model } = require('mongoose');
 
 
 const PedidoSchema = Schema({
 
-    nombre:{
+    nombre: {
         type: String,
         require: [true, "El nombre es obligatorio"],
     },
-    importe:{
+    importe: {
         type: Number,
         require: [true, "El Importe es obligatorio"],
     },
-    fecha : {
+    fecha: {
         type: String,
         require: [true, "El nombre es obligatorio"],
-        required :  true
+        required: true
     },
-    estado:{
+    estado: {
         type: Boolean,
         default: true,
-        required : true
+        required: true
     },
-    usuario : {
+    status: {
+        type: Boolean,
+        default: true,
+        required: true
+    },
+    usuario: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
-        required :  true
+        required: true
     },
-    bodega : {
+    bodega: {
         type: Schema.Types.ObjectId,
         ref: 'Bodega',
     }
 });
 
-PedidoSchema.methods.toJSON = function(){
-    const {__v,estado,...data } = this.toObject();
+PedidoSchema.methods.toJSON = function () {
+    const { __v, estado, ...data } = this.toObject();
     return data;
 }
 
 
-module.exports = model( 'Pedido', PedidoSchema );
+module.exports = model('Pedido', PedidoSchema);
