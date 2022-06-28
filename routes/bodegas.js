@@ -58,6 +58,7 @@ router.put('/:id',
         check("h_inicio", "El horario de inicio de atencion de la bodega es obligatorio").not().isEmpty(),
         check("h_final", "El horario final de atencion de la bodega es obligatorio").not().isEmpty(),
         check("imagen", "La imagen es obligatoria").not().isEmpty(),
+        check("direccion", "La direccion de la bodega es obligatria").not().isEmpty(),
         check('id').custom(existeBodegueroConEstadoTrue),
         validarCampos
     ],
