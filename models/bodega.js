@@ -1,14 +1,14 @@
 
-const { Schema, model } = require( 'mongoose' );
+const { Schema, model } = require('mongoose');
 
 const BodegaSchema = Schema({
 
-    nombre:{
+    nombre: {
         type: String,
         require: [true, "El nombre es obligatorio"],
-        unique :  true
+        unique: true
     },
-    descripcion:{
+    descripcion: {
         type: String,
         require: [true, "La descripcion es obligatorio"],
     },
@@ -24,14 +24,18 @@ const BodegaSchema = Schema({
         type: Number,
         require: [true, "La latitud de la bodega es obligatorio"],
     },
+    direccion: {
+        type: String,
+        require: [true, "La direccion de la bodega es obligatorio"],
+    },
     longitudDeBodega: {
         type: Number,
         require: [true, "La longitud de la bodega es obligatorio"],
     },
-    email:{
+    email: {
         type: String,
         require: [true, "El email es obligatorio"],
-        unique :  true
+        unique: true
     },
     h_inicio: {
         type: String,
@@ -57,28 +61,28 @@ const BodegaSchema = Schema({
         type: String,
         require: [true, "la imagen es obligatorio"],
     },
-    fecha : {
+    fecha: {
         type: String,
         require: [true, "La fecha es obligatoria"],
         // required :  true
     },
-    estado:{
+    estado: {
         type: Boolean,
         default: true,
-        required : true
+        required: true
     },
-    usuario : {
+    usuario: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
-        required :  true
+        required: true
     }
 
 });
 
-BodegaSchema.methods.toJSON = function(){
-    const {__v,estado,...data } = this.toObject();
+BodegaSchema.methods.toJSON = function () {
+    const { __v, estado, ...data } = this.toObject();
     return data;
 }
 
 
-module.exports = model( 'Bodega', BodegaSchema );
+module.exports = model('Bodega', BodegaSchema);
