@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { crearPedido, getPedidos, getDetallePedidoById, deletePedido, getPedidosByIdUser } = require('../controllers/pedidos');
+const { crearPedido, getPedidos, getDetallePedidoById, deletePedido, getPedidosByIdUser, updateStatusPedido } = require('../controllers/pedidos');
 const { isVaidIdProducto, existePedidoId } = require('../helpers/db-validators');
 
 
@@ -40,25 +40,14 @@ router.get('/:id',
     ]
     , getDetallePedidoById);
 
-// router.put('/:id',
-// [
-//     validarJWT,
-//     check("id","El id no es valido").isMongoId(),
-//     check("email","El email no es valido").isEmail(),
-//     check( "nombre","El nombre es obligatorio" ).not().isEmpty(),
-//     check( "descripcion","La descripcion es obligatoria" ).not().isEmpty(),
-//     check( "nombrePropietario","El nombre del propietario es obligatoria" ).not().isEmpty(),
-//     check( "telefono","El telefono es obligarotio" ).not().isEmpty(),
-//     check( "latitudDeBodega","La latitud de la bodega es obligatria" ).not().isEmpty(),
-//     check( "longitudDeBodega","La longitud de la bodega es obligatria" ).not().isEmpty(),
-//     check( "email","El email es obligatorio" ).not().isEmpty(),
-//     check( "h_inicio","El horario de inicio de atencion de la bodega es obligatorio" ).not().isEmpty(),
-//     check( "h_final","El horario final de atencion de la bodega es obligatorio" ).not().isEmpty(),
-//     check( "imagen","La imagen es obligatoria" ).not().isEmpty(),
-//     check('id').custom(existeBodegueroConEstadoTrue),
-//     validarCampos
-// ],
-// updateBodega);
+router.put('/status/:id',
+    [
+        validarJWT,
+        check("id", "El id no es valido").isMongoId(),
+        check("status", "El status es obligatoria").not().isEmpty(),
+        validarCampos
+    ],
+    updateStatusPedido);
 
 router.delete('/:id',
     [
