@@ -41,7 +41,8 @@ const ProductoSchema = Schema({
     },
     stock: {
         type: Number,
-        default: 0
+        default: 0,
+        required: [true, "El stock es obligatorio"],
     }
 
 });

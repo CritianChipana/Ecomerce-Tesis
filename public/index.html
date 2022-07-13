@@ -1,64 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Google Signin</title>
-    <meta name="google-signin-client_id" content="559682030156-i1a4flamgv78o107gv3ufrf2t7okkjfn.apps.googleusercontent.com">
-
-</head>
-<body>
+    <meta
+      name="google-signin-client_id"
+      content="559682030156-i1a4flamgv78o107gv3ufrf2t7okkjfn.apps.googleusercontent.com"
+    />
+  </head>
+  <body style="background:#333;color:#999">
     <h1>Cristian A. Chipana Huaman</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae, tempora?</p>
-    <hr>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae,
+      tempora?
+    </p>
+    <hr />
 
     <h2>GOOGLE SIGNIN</h2>
-    <hr>
+    <hr />
 
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
     <a href="#" onclick="signOut();">Sign out</a>
 
-    <script src="https://apis.google.com/js/platform.js" async defer></script> 
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
     <script>
+      var url = window.location.hostname.includes("localhost")
+        ? "http://localhost:4000/api/auth/google"
+        : "https://node-restserver-cascaron.herokuapp.com/api/auth/google";
 
-        var url = ( window.location.hostname.includes('localhost') )
-            ? 'http://localhost:4000/api/auth/google'
-            : 'https://node-restserver-cascaron.herokuapp.com/api/auth/google'
+      function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log("Name: " + profile.getName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
 
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        var id_token = googleUser.getAuthResponse().id_token;
+        const data = { id_token };
 
-            var id_token = googleUser.getAuthResponse().id_token;
-            const data = { id_token }
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.json())
+          .then((sata) => console.log("Nustro server", data, sata))
+          .catch(console.log);
+      }
 
-            fetch ( url, {
-                method: 'POST',
-                headers: { 'Content-Type':'application/json' },
-                body: JSON.stringify( data )
-            })
-            .then( res => res.json() )
-            .then( sata => console.log("Nustro server", data, sata))
-            .catch( console.log  );
-        }
-
-
-
-
-        function signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-            console.log('User signed out.');
-            });
-        }
-
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log("User signed out.");
+        });
+      }
     </script>
 
-</body>
+    <!-- <script
+      src="https://cdn.socket.io/4.5.0/socket.io.min.js"
+      integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k"
+      crossorigin="anonymous"
+    ></script> -->
+
+    <script>
+      // let socket = io("http://localhost:4000/", {
+      //   transport:[
+      //     'websocket',
+      //     'polling',
+      //     'flashsocket'
+      //   ],
+      //   reconnection: true,
+      //   reconnectionAttempts: "Infinity",
+      //   reconnectionDelay: 1000,
+      //   reconnectionDelayMax: 5000,
+      //   randomizationFactor: 0.5,
+      //   timeout: 30000,
+      //   autoConnect: true,
+      //   origin: "*:*",
+      //   cors:{
+      //     origin:"*",
+      //     methods:"GET, POST, PUT, DELETE, OPTIONS, HEAD",
+      //     allowedHeaders:"Content-Type, Authorization, X-Requested-With",
+      //     credentials:true,
+      //     preflightContinue:false
+      //   }
+      // });
+
+      // socket.on("connect_error", (err) => {
+      //   console.log(`connect_error due to ${err.message}`);
+      // });
+
+      // Conexión con el socket server
+      // const socket = io('http://localhost:4000');
+
+      // Cuando se conecte al socket server
+      // socket.on("connect", function () {
+      //   console.log("Conectado al socket server");
+      // });
+
+      // const data = {
+      //   nombre: "cliente2",
+      //   mensaje: "desde el cliente 4000",
+      // };
+
+      /// Para emitir
+      // socket.emit("mensaje-to-server", { data });
+
+      // Para escuchar
+      // socket.on("mensaje-from-server", (data) => {
+      // });
+    </script>
+  </body>
 </html>

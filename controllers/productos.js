@@ -37,7 +37,7 @@ const obtnerProducto = async (req = request, res = response) => {
     const _id = req.params.id;
 
 
-    const producto = await Producto.findOne({ _id, estado: true });
+    const producto = await Producto.findOne({ _id, estado: true }).populate('categoria', ['nombre']);
 
     if (!producto) {
         return res.status(400).json({
@@ -95,6 +95,7 @@ const actualizarProducto = async (req = request, res = response) => {
         descripcion,
         disponible,
         categoria,
+        stock,
         img,
     } = req.body;
 
@@ -133,7 +134,8 @@ const actualizarProducto = async (req = request, res = response) => {
             descripcion,
             disponible,
             img,
-            categoria
+            categoria,
+            stock,
         },
         { new: true })
 
