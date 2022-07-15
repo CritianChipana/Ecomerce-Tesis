@@ -72,6 +72,13 @@ const crearProducto = async (req, res = response) => {
         })
     }
 
+    const validarEstadoMarca = await Marca.findById(body.marca);
+    if (!validarEstadoMarca?.estado) {
+        return res.status(400).json({
+            msg: "Verifique el estado de la Marca"
+        })
+    }
+
     const data = {
         nombre,
         ...body,
@@ -101,11 +108,6 @@ const actualizarProducto = async (req = request, res = response) => {
     } = req.body;
 
     const nombre = req.body.nombre.toUpperCase();
-
-    const nombrebica = await Producto.findOne({
-        nombre,
-        estado: true
-    })
 
     const validarestadocategoria = await Categoria.findById(categoria);
     if (!validarestadocategoria?.estado) {
