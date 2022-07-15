@@ -30,7 +30,7 @@ const ProductoSchema = Schema({
     categoria: {
         type: Schema.Types.ObjectId,
         ref: 'Categoria',
-        required: true
+        required: [true, "La categoria es obligatoria"],
     },
     descripcion: { type: String },
     disponible: { type: Boolean, default: true },
@@ -43,6 +43,11 @@ const ProductoSchema = Schema({
         type: Number,
         default: 0,
         required: [true, "El stock es obligatorio"],
+    },
+    marca: {
+        type: Schema.Types.ObjectId,
+        ref: 'Marca',
+        required: [true, "La marca es obligatoria"],
     }
 
 });
