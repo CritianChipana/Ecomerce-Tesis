@@ -68,14 +68,9 @@ const getPedidos = async (req = request, res = response) => {
             });
         }
 
-        // const [total, productos] = await Promise.all([
-        //     Producto.countDocuments({ estado: true }),
-
-        //     Producto.find({ estado: true }).populate("usuario", ["_id"])
-        //         .populate('categoria', ["_id", "usuario", "nombre"])
-        // ]);
-
-        const pedidos = await Pedido.find({ estado: true, bodega: existePedidos._id });
+        const pedidos = await Pedido.find({ estado: true, bodega: existePedidos._id })
+                                .populate("bodega");
+        
 
         res.status(200).json({
             success: true,
