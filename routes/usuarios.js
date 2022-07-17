@@ -9,7 +9,8 @@ const { usuariosGet,
         usuariosDelete, 
         usuariosPost,
         usuariosGetPositions,
-        datosDelaBodegaByIdUser} = require('../controllers/usuarios');
+        datosDelaBodegaByIdUser,
+        changePassword} = require('../controllers/usuarios');
         
 const { validarJWT,
         esAdminRole,
@@ -73,5 +74,13 @@ router.post('/datosBodega/:id',
         validarCampos
 ],
 datosDelaBodegaByIdUser);
+
+router.post('/changePassword',
+[
+        validarJWT,
+        check('newPassword', 'La nueva contraseña debe de tener 6 letras como minimo').isLength({ min:6 }),
+        validarCampos
+],
+changePassword);
 
 module.exports = router;

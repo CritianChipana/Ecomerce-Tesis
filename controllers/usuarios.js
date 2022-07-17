@@ -1,4 +1,4 @@
-const { response, request } = require( 'express' );
+const { response, request, json } = require( 'express' );
 
 const bcryptjs = require('bcryptjs');
 const { generarJWT } = require('../helpers/generarJWT.JS');
@@ -162,6 +162,41 @@ const datosDelaBodegaByIdUser = async (req, res) => {
     }
 }
 
+const changePassword = async (req, res) => {
+
+    try{
+        const user = req.usuario;
+        const { oldPassword, newPassword } = req.body;
+        
+        const usuario = await Usuario.findById( user.id );
+        
+        const validPassword = bcryptjs.compareSync( oldPassword, usuario.password )
+        if( !validPassword ){
+            return   res.status(400).json({
+                success: false,
+                msg:'Password incorrectos',
+            })
+        }
+        
+        const salt = bcryptjs.genSaltSync();
+        const passwordEncriptado = bcryptjs.hashSync( newPassword, salt );
+        
+        await Usuario.findByIdAndUpdate( user.id, { password: passwordEncriptado }, { new: true } );
+        
+        res.json({
+            'success':true,
+            msg: "Contraseña cambiada",
+        })
+    }
+    catch (error) {
+        res.status(500).json({
+            'success':false,
+            msg: "Error al cambiar contraseña, hable con el administrador",
+            error
+        })
+    }
+}
+
 module.exports = {
     usuariosGet,
     usuariosPut,
@@ -169,5 +204,6 @@ module.exports = {
     usuariosPath,
     usuariosDelete,
     usuariosGetPositions,
-    datosDelaBodegaByIdUser
+    datosDelaBodegaByIdUser,
+    changePassword
 }
