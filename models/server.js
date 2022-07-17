@@ -27,6 +27,7 @@ class Server {
       solicitudes: "/api/solicitudes",
       bodega: "/api/bodega",
       pedido: "/api/pedido",
+      marca:"/api/marca",
     };
     // this.usuariosPath ="/api/usuarios"
     // this.authPath ="/api/auth"
@@ -83,6 +84,7 @@ class Server {
     this.app.use(this.paths.roles, require("../routes/roles.js"));
     this.app.use(this.paths.bodega, require("../routes/bodegas.js"));
     this.app.use(this.paths.pedido, require("../routes/pedidos.js"));
+    this.app.use(this.paths.marca, require("../routes/marcas.js"));
   }
 
   listen() {

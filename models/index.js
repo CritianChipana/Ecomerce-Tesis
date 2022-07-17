@@ -8,6 +8,7 @@ const Producto = require('./producto');
 const Pedido = require('./pedido');
 const Bodega = require('./bodega');
 const DetallePedido = require('./detallePedido');
+const Marca = require('./marca');
 
 module.exports = {
    Categoria,
@@ -17,5 +18,6 @@ module.exports = {
    Producto,
    Pedido,
    Bodega,
-   DetallePedido
+   DetallePedido,
+   Marca,
 }

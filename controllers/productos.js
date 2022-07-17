@@ -1,7 +1,7 @@
 const { response, request } = require('express');
 
 const bcryptjs = require('bcryptjs');
-const { Categoria, Producto } = require('../models');
+const { Categoria, Producto, Marca } = require('../models');
 
 // OBTENER CATEGORIAS
 const obtnerProductos = async (req = request, res = response) => {
@@ -37,7 +37,7 @@ const obtnerProducto = async (req = request, res = response) => {
     const _id = req.params.id;
 
 
-    const producto = await Producto.findOne({ _id, estado: true }).populate('categoria', ['nombre']);
+    const producto = await Producto.findOne({ _id, estado: true }).populate('categoria', ['nombre']).populate('marca', ['nombre']);
 
     if (!producto) {
         return res.status(400).json({
@@ -72,6 +72,13 @@ const crearProducto = async (req, res = response) => {
         })
     }
 
+    const validarEstadoMarca = await Marca.findById(body.marca);
+    if (!validarEstadoMarca?.estado) {
+        return res.status(400).json({
+            msg: "Verifique el estado de la Marca"
+        })
+    }
+
     const data = {
         nombre,
         ...body,
@@ -96,20 +103,23 @@ const actualizarProducto = async (req = request, res = response) => {
         disponible,
         categoria,
         stock,
+        marca,
         img,
     } = req.body;
 
     const nombre = req.body.nombre.toUpperCase();
 
-    const nombrebica = await Producto.findOne({
-        nombre,
-        estado: true
-    })
-
     const validarestadocategoria = await Categoria.findById(categoria);
     if (!validarestadocategoria?.estado) {
         return res.status(400).json({
             msg: "Verifique el estado de la categoria"
+        })
+    }
+
+    const validarEstadoMarca = await Marca.findById(marca);
+    if (!validarEstadoMarca?.estado) {
+        return res.status(400).json({
+            msg: "Verifique el estado de la Marca"
         })
     }
 
@@ -135,6 +145,7 @@ const actualizarProducto = async (req = request, res = response) => {
             disponible,
             img,
             categoria,
+            marca,
             stock,
         },
         { new: true })
