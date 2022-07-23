@@ -91,7 +91,7 @@ const actualizarCategoria = async (req = request, res =response ) => {
 
     if( nombrebica ){
         return res.status( 404).json({
-            msg:"El nombre se repite - romel mmgvzo!!"
+            msg:"El nombre se repite"
         });
     }
 
@@ -119,7 +119,8 @@ const borrarCategoria = async (req, res) => {
 
         const { id } = req.params;
         
-        const categoria = await Categoria.findByIdAndUpdate( id, { estado :false } , { new : true } )
+        // const categoria = await Categoria.findByIdAndUpdate( id, { estado :false } , { new : true } )
+        const categoria = await Categoria.findByIdAndRemove( id );
     
         res.json({
             success: true,

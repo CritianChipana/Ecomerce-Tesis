@@ -27,7 +27,7 @@ const existeUsuariPorId = async (id = "") => {
   // Verificar si el correo Existe
   const existeUsuario = await Usuario.findById(id);
   if (!existeUsuario) {
-    throw new Error(`El id ${id}, existe!! `);
+    throw new Error(`El id ${id}, no existe!`);
   }
 };
 
@@ -128,11 +128,22 @@ const existeProductoPorNombreDeCategoria = async (nombre = "") => {
 };
 
 const existeBodegueroConEstadoTrue = async (id) => {
+  // id de la bodega
   const existeBodega = await Bodega.findOne({ estado: true, _id: id });
   if (!existeBodega) {
     throw new Error(`El bodeguero identificado con ${id}, no existe!! `);
   }
 };
+
+const existeBodegaConUsuario = async (id) => {
+  // id del usuario
+  const existeBodega = await Bodega.findOne({ usuario: id });
+  // console.log(existeBodega);
+  if (!existeBodega) {
+    throw new Error(`El bodeguero identificado con ${id}, no existe!! `);
+  }
+}
+
 
 const isVaidIdProducto = async (productos) => {
   productos.forEach(async (producto) => {
@@ -204,4 +215,5 @@ module.exports = {
   existeMarca,
   estadoActivoMarca,
   existeProductoRelacionadoMarca,
+  existeBodegaConUsuario
 };

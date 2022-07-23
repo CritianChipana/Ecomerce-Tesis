@@ -6,8 +6,9 @@ const { crearbodega,
     getBodegaById,
     updateBodega,
     deleteBodega,
-    obtenerProductoByIdBodega } = require('../controllers/bodegas');
-const { existeBodegueroConEstadoTrue, existeBodegaConestadoTrue } = require('../helpers/db-validators');
+    obtenerProductoByIdBodega, 
+    obtenerBodegaByIdUsuario} = require('../controllers/bodegas');
+const { existeBodegueroConEstadoTrue, existeBodegaConestadoTrue, existeBodegaConUsuario } = require('../helpers/db-validators');
 
 const { validarJWT } = require('../middlewares');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -42,6 +43,15 @@ router.get('/:id',
         validarCampos
     ]
     , getBodegaById);
+
+router.get('/usuario/:id'
+    , [
+        check("id", "El id no es valido").isMongoId(),
+        check('id').custom(existeBodegaConUsuario),
+        // check('id').custom(existeBodegaConestadoTrue),
+        validarCampos
+    ]
+    , obtenerBodegaByIdUsuario);
 
 router.put('/:id',
     [

@@ -48,8 +48,11 @@ const ProductoSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Marca',
         required: [true, "La marca es obligatoria"],
+    },
+    yape:{
+        type: String,
+        require: [true, "El yape es obligatorio"],
     }
-
 });
 
 ProductoSchema.methods.toJSON = function () {

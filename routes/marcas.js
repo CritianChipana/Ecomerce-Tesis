@@ -25,7 +25,7 @@ router.get("/", obtenerMarcas);
 router.get(
   "/:id",
   [
-    check("id", "El id de la categoria no es ID valido").isMongoId(),
+    check("id", "El id de la marca no es valido").isMongoId(),
     check("id").custom(existeMarca),
     validarCampos,
   ],

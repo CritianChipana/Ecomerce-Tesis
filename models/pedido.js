@@ -24,7 +24,7 @@ const PedidoSchema = Schema({
     },
     status: {
         type: String,
-        default: "pendiente",
+        default: "ordenado",
         required: true
     },
     usuario: {

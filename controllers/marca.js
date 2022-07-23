@@ -27,17 +27,17 @@ const obtenerMarcabyId = async (req = request, res= response) => {
     const _id = req.params.id;
 
 
-    const categoriaOlone = await Marca.findOne(  { _id, estado : true } ); 
+    const marcaById = await Marca.findOne(  { _id, estado : true } ); 
 
-    if( !categoriaOlone ){
+    if( !marcaById ){
         return  res.status(400).json({
-            msg : "El id no es valido - sigue intentando estado false"
+            msg : "El id no es valido - estado false"
         })
     }
     
 
     res.json({
-        categoriaOlone,
+        marca: marcaById,
         msg : "ok" 
     });
 };
@@ -109,7 +109,8 @@ const borrarMarca = async (req, res) => {
 
         const { id } = req.params;
         
-        const categoria = await Marca.findByIdAndUpdate( id, { estado :false } , { new : true } )
+        // const categoria = await Marca.findByIdAndUpdate( id, { estado :false } , { new : true } )
+        const marca = await Marca.findByIdAndRemove( id );
     
         res.json({
             success: true,

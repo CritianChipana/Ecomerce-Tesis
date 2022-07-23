@@ -5,7 +5,13 @@ const { crearProducto,
     obtnerProducto,
     actualizarProducto,
     borrarProducto,
-    obtnerProductosByCategoria } = require('../controllers/productos');
+    obtnerProductosByCategoria, 
+    obtenerProdutosByUsuario,
+    actualizarStock,
+    stockDecrementar,
+    stockIncrementar,
+    agregarFavorito,
+    obtenerFavoritos} = require('../controllers/productos');
 
 const {
     existeCategoria,
@@ -13,7 +19,8 @@ const {
     existeProducto,
     existecategoriaConEstadoTrue,
     existeProductoporId,
-    existeProductoPorNombreDeCategoria } = require('../helpers/db-validators');
+    existeProductoPorNombreDeCategoria, 
+    existeUsuariPorId} = require('../helpers/db-validators');
 const { validarJWT, esAdminRole } = require('../middlewares');
 
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -50,6 +57,15 @@ router.get('/:id',
     ]
     , obtnerProducto)
 
+// get productos por usuario
+router.get('/user/:id',
+    [
+        check('id', "El id del producto no es ID valido").isMongoId(),
+        check('id').custom(existeUsuariPorId),
+        validarCampos
+    ]
+    , obtenerProdutosByUsuario)
+
 // Crear Categoria cualquier - privado - token valido
 router.post('/',
     [
@@ -80,7 +96,6 @@ router.put('/:id', [
     validarCampos
 ], actualizarProducto)
 
-
 // BORRAR UNA CATEGORIA -ADMI
 router.delete('/:id', [
     validarJWT,
@@ -93,6 +108,48 @@ router.delete('/:id', [
     validarCampos
 ], borrarProducto)
 
+// actualizar stock del producto
+router.put('/stock/:id', [
+    validarJWT,
+    check('id', "El id del producto no es ID valido").isMongoId(),
+    check('id').custom(existeProducto),
+    // check("disponible", "El disponible es obligatorio").not().isEmpty(),
+    validarCampos
+], actualizarStock)
+
+// actualizar stock del producto - 1
+
+router.put('/stock/decrementar/:id', [
+    validarJWT,
+    check('id', "El id del producto no es ID valido").isMongoId(),
+    check('id').custom(existeProducto),
+    // check("disponible", "El disponible es obligatorio").not().isEmpty(),
+    validarCampos
+], stockDecrementar)
+
+router.put('/stock/incrementar/:id', [
+    validarJWT,
+    check('id', "El id del producto no es ID valido").isMongoId(),
+    check('id').custom(existeProducto),
+    // check("disponible", "El disponible es obligatorio").not().isEmpty(),
+    validarCampos
+], stockIncrementar)
+
+router.post('/favorite/:id', [
+    validarJWT,
+    check('id', "El id del producto no es ID valido").isMongoId(),
+    check('id').custom(existeProducto),
+    // check("disponible", "El disponible es obligatorio").not().isEmpty(),
+    validarCampos
+], agregarFavorito)
+
+router.get('/favorite/:id', [
+    validarJWT,
+    check('id', "El id del producto no es ID valido").isMongoId(),
+    check('id').custom(existeProducto),
+    // check("disponible", "El disponible es obligatorio").not().isEmpty(),
+    validarCampos
+], obtenerFavoritos)
 
 
 

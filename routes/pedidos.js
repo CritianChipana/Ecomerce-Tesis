@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { crearPedido, getPedidos, getDetallePedidoById, deletePedido, getPedidosByIdUser, updateStatusPedido } = require('../controllers/pedidos');
+const { crearPedido, getPedidos, getDetallePedidoById, deletePedido, getPedidosByIdUser, updateStatusPedido, getPedidoById, updatePedido } = require('../controllers/pedidos');
 const { isVaidIdProducto, existePedidoId } = require('../helpers/db-validators');
 
 
@@ -40,6 +40,14 @@ router.get('/:id',
     ]
     , getDetallePedidoById);
 
+router.get('/refresh/:id',
+    [
+        check("id", "El id no es valido").isMongoId(),
+        check('id').custom(existePedidoId),
+        validarCampos
+    ]
+    , getPedidoById);
+
 router.put('/status/:id',
     [
         validarJWT,
@@ -58,6 +66,21 @@ router.delete('/:id',
         validarCampos
     ]
     , deletePedido);
+
+router.put('/:id',
+    [
+        validarJWT,
+        check("id", "El id no es valido").isMongoId(),
+        check("nombre", "El nombre es obligatoria").not().isEmpty(),
+        check("importe", "El importe es obligatoria").not().isEmpty(),
+        check("importe", "El importe es obligatoria").isNumeric(),
+        check("fecha", "La fecha es obligatoria").not().isEmpty(),
+        check("status", "El status es obligatoria").not().isEmpty(),
+        check('productos').custom(isVaidIdProducto),
+        validarCampos
+    ]
+    , updatePedido);
+
 
 
 

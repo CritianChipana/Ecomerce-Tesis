@@ -30,11 +30,11 @@ router.post('/',
 ,crearCategoria);
 
 
-// actualizar p´rivado cualquiera con token valido
+// actualizar privado cualquiera con token valido
 router.put('/:id',[
     validarJWT,
     check('id',"El id de la categoria no es ID valido").isMongoId(),
-    check('nombre',"Falva el campo nombre ").not().isEmpty(),
+    check('nombre',"Falta el campo nombre ").not().isEmpty(),
     check('id').custom( existeCategoria ),
     validarCampos
 ],actualizarCategoria)

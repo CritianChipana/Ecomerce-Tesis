@@ -193,11 +193,37 @@ const obtenerProductoByIdBodega = async (req, res = response) => {
     }
 }
 
+const obtenerBodegaByIdUsuario = async (req, res = response) => {
+    try {
+        const { id } = req.params;
+        // console.log(id);
+        const bodega = await Bodega.findOne({ usuario: id, estado: true });
+        if (!bodega) {
+            return res.status(400).json({
+                success: false,
+                msg: " No existe la bodega"
+            })
+        }
+
+        res.status(200).json({
+            success: true,
+            bodega
+        })
+
+    } catch (error) { 
+        res.status(500).json({
+            success: false,
+            msg: 'No se pudo obtener bodega, Comuniquese con el administrador',
+        })
+    }
+}
+
 module.exports = {
     crearbodega,
     getBodegas,
     getBodegaById,
     updateBodega,
     deleteBodega,
-    obtenerProductoByIdBodega
+    obtenerProductoByIdBodega,
+    obtenerBodegaByIdUsuario
 }

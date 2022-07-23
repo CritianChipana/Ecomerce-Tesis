@@ -61,19 +61,13 @@ const login = async ( req=request, res= response) =>{
 }
 
 const googleSignin = async ( req = request , res= response )=>{
-
-
     const { id_token } = req.body;
-
     try {
-
         const  {correo, nombre,img} = await googleVerify( id_token );
-
-        console.log("8888888888888888888888888888888888888888888888888888888888888888")
-        // console.log(googleUser);
-
-        // Generar la referencia para saber si ya existe en la base de datos
         let usuario = await Usuario.findOne( { correo } );
+        console.log("google");
+        // console.log(googleUser);
+        // Generar la referencia para saber si ya existe en la base de datos
         if( !usuario ){
             // Tengo que crearlo
 
@@ -99,7 +93,7 @@ const googleSignin = async ( req = request , res= response )=>{
         //Generar el JWT
         const token = await generarJWT( usuario.uid );
 
-        return res.json({
+        return res.status(200).json({
             msg : 'Todo ok! , miau',
             id_token,
             // googleUser,

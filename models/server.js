@@ -6,15 +6,16 @@ const { dbConnection } = require("../database/connection.js");
 const fileUpload = require("express-fileupload");
 
 const Sockets = require("./sockets");
+const morgan = require("morgan");
 
 class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
     this.httpServer = http.createServer(this.app);
-    this.io = new SocketServer(this.httpServer, {
-      origins: "*",
-    });
+    // this.io = new SocketServer(this.httpServer, {
+    //   origins: "*",
+    // });
 
     this.paths = {
       auth: "/api/auth",
@@ -43,12 +44,12 @@ class Server {
     this.route();
 
     // Configurar sockets
-    this.configurarSockets();
+    // this.configurarSockets();
   }
 
-  configurarSockets() {
-    new Sockets(this.io);
-  }
+  // configurarSockets() {
+  //   new Sockets(this.io);
+  // }
 
   async conectarBD() {
     await dbConnection();
@@ -72,6 +73,9 @@ class Server {
         createParentPath: true,
       })
     );
+    
+    // Morgan
+    this.app.use(morgan("dev"));
   }
 
   route() {

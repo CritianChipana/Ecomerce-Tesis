@@ -67,8 +67,12 @@ const UsuarioSchema = Schema({
     bodegero: {
         type: Schema.Types.ObjectId,
         ref: 'Bodega'
-    }
-
+    },
+    favoritos: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Producto',
+        default: []
+    }]
 });
 
 UsuarioSchema.methods.toJSON = function () {
