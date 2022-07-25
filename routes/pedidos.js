@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { crearPedido, getPedidos, getDetallePedidoById, deletePedido, getPedidosByIdUser, updateStatusPedido, getPedidoById, updatePedido } = require('../controllers/pedidos');
+const { crearPedido, getPedidos, getDetallePedidoById, deletePedido, getPedidosByIdUser, updateStatusPedido, getPedidoById, updatePedido, getPedidoByStatus } = require('../controllers/pedidos');
 const { isVaidIdProducto, existePedidoId } = require('../helpers/db-validators');
 
 
@@ -48,7 +48,7 @@ router.get('/refresh/:id',
     ]
     , getPedidoById);
 
-router.put('/status/:id',
+router.put('/status',
     [
         validarJWT,
         check("id", "El id no es valido").isMongoId(),
@@ -81,6 +81,12 @@ router.put('/:id',
     ]
     , updatePedido);
 
+router.get('/status/carrito',
+    [
+        validarJWT,
+        validarCampos
+    ]
+    , getPedidoByStatus);
 
 
 

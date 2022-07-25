@@ -16,8 +16,21 @@ const obtnerProductos = async (req = request, res = response) => {
       .populate("marca", ["_id", "usuario", "nombre"]),
   ]);
 
+  // agregar bodega a cada producto
+  const productoConBodega = await Promise.all(
+    productos
+  ).then((productos) => {
+    return productos.map(async (producto) => {
+      const bodega = await Bodega.findOne({ usuario: producto.usuario });
+      return { ...producto._doc, bodega: bodega };
+    });
+  }).then(async (productos) => {
+    return Promise.all(productos);
+  });
+  // console.log(productoConBodega);
+
   res.json({
-    productos,
+    productos: productoConBodega,
     total,
   });
 };
@@ -30,8 +43,20 @@ const obtnerProductosByCategoria = async (req = request, res = response) => {
     estado: true,
   });
 
+  // agregar bodega a cada producto
+  const productoConBodega = await Promise.all(
+    productos
+  ).then((productos) => {
+    return productos.map(async (producto) => {
+      const bodega = await Bodega.findOne({ usuario: producto.usuario });
+      return { ...producto._doc, bodega: bodega };
+    });
+  }).then(async (productos) => {
+    return Promise.all(productos);
+  });
+
   res.json({
-    productos,
+    productos: productoConBodega,
   });
 };
 
@@ -56,6 +81,25 @@ const obtnerProducto = async (req = request, res = response) => {
     bodega,
   });
 };
+
+const obtenerProductoPorNombre = async (req = request, res = response) => {
+  const { nombre } = req.params;
+  const producto = await Producto.findOne({ nombre: nombre, estado: true });
+  // obtener bodega del usuario
+  const bodega = await Bodega.findOne({ usuario: producto.usuario._id });
+  console.log("se consulto la bodega");
+
+  if (!producto) {
+    return res.status(400).json({
+      msg: "El id no es valido - sigue intentando estado false",
+    });
+  }
+
+  res.json({
+    producto,
+    bodega,
+  });
+}
 
 // CREAR Producto ******************************************************
 const crearProducto = async (req, res = response) => {
@@ -215,7 +259,7 @@ const actualizarStock = async (req = request, res = response) => {
 
 const stockDecrementar = async (req = request, res = response) => {
   const { id } = req.params;
-  // const { stock } = req.body;
+  const { cantidad } = req.body;
 
   const producto = await Producto.findById(id);
 
@@ -226,7 +270,7 @@ const stockDecrementar = async (req = request, res = response) => {
   }
   const productoActualizado = await Producto.findByIdAndUpdate(
     id,
-    { stock: producto.stock - 1 },
+    { stock: producto.stock - cantidad },
     { new: true }
   );
   // const productoActualizado = await Producto.findByIdAndUpdate(id, { stock: stock-1}, { new: true })
@@ -239,7 +283,7 @@ const stockDecrementar = async (req = request, res = response) => {
 
 const stockIncrementar = async (req = request, res = response) => {
   const { id } = req.params;
-  // const { stock } = req.body;
+  const { cantidad } = req.body;
 
   const producto = await Producto.findById(id);
 
@@ -250,7 +294,7 @@ const stockIncrementar = async (req = request, res = response) => {
   }
   const productoActualizado = await Producto.findByIdAndUpdate(
     id,
-    { stock: producto.stock + 1 },
+    { stock: producto.stock + cantidad },
     { new: true }
   );
 
@@ -265,21 +309,21 @@ const agregarFavorito = async (req = request, res = response) => {
   const { id } = req.params;
   // obtener usuario del token
   const usuario = req.usuario;
-  const idUsuario= usuario._id;
+  const idUsuario = usuario._id;
   // console.log(usuario,"usuario");
 
   const producto = await Producto.findById(id);
 
-  if(!producto){
+  if (!producto) {
     return res.status(400).json({
-      msg: "El producto no existe"
-    })
+      msg: "El producto no existe",
+    });
   }
 
   // remover producto de favoritos
   if (usuario.favoritos.includes(id)) {
     const favoritos = usuario.favoritos.filter((fav) => {
-      fav!== producto._id;
+      fav !== producto._id;
     });
     console.log(favoritos);
     const usuarioActualizado = await Usuario.findByIdAndUpdate(
@@ -313,10 +357,10 @@ const obtenerFavoritos = async (req = request, res = response) => {
   const usuario = req.usuario;
   console.log("get favoritos");
 
-  if(!usuario.favoritos){
+  if (!usuario.favoritos) {
     return res.status(400).json({
       msg: "El usuario no tiene favoritos",
-      favoritos:[]
+      favoritos: [],
     });
   }
 
@@ -326,7 +370,7 @@ const obtenerFavoritos = async (req = request, res = response) => {
     msg: "Favoritos",
     productos,
   });
-}
+};
 
 module.exports = {
   obtnerProductos,
@@ -340,5 +384,6 @@ module.exports = {
   stockDecrementar,
   stockIncrementar,
   agregarFavorito,
-  obtenerFavoritos
+  obtenerFavoritos,
+  obtenerProductoPorNombre
 };

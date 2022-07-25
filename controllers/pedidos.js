@@ -83,6 +83,42 @@ const getPedidos = async (req = request, res = response) => {
   }
 };
 
+const getPedidoByStatus = async (req = request, res = response) => {
+  try {
+    const { _id } = req.usuario;
+
+    const pedido = await Pedido.find({
+      estado: true,
+      usuario: _id,
+      status: "por pedir",
+    }).populate("bodega");
+    ;
+    // console.log(pedidos);
+
+    const detallePedido = await DetallePedido.find({ pedido: pedido[0]._id }).populate(
+      "producto"
+    );
+
+    if (pedido.length === 0) {
+      res.status(400).json({
+        success: false,
+        msg: "No se encontro pedidos del usuario",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {pedido,productos: detallePedido},
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      msg: "No se pudo obtener los pedidos, Contacte al administrador.",
+      data: error,
+    });
+  }
+};
+
 const getPedidosByIdUser = async (req = request, res = response) => {
   try {
     const { _id } = req.usuario;
@@ -176,10 +212,10 @@ const updateStatusPedido = async (req = request, res = response) => {
 const deletePedido = async (req = request, res = response) => {
   try {
     const { id } = req.params;
-    const pedido = await Pedido.findById({ _id: id });
+    const pedido = await Pedido.findByIdAndDelete({ _id: id });
     console.log(pedido);
     // obtener el detalle del pedido para reponer los productos
-    
+
     // await DetallePedido.deleteMany({ pedido: id });
     res.status(200).json({
       success: true,
@@ -200,6 +236,7 @@ const updatePedido = async (req = request, res = response) => {
     const { estado, productos, ...body } = req.body;
 
     const pedido = await Pedido.findById(id);
+    
 
     if (!pedido) {
       res.status(400).json({
@@ -214,9 +251,25 @@ const updatePedido = async (req = request, res = response) => {
       { new: true }
     );
 
+    const detallePedido = await DetallePedido.find({ pedido: id });
+
+    detallePedido.forEach(async (detalle) => {
+      const { cantidad, precio, _id, ...data } = detalle;
+      const detallePedido = new DetallePedido({
+        ...data,
+        pedido: pedido._id,
+        total: precio * cantidad,
+        precio,
+        cantidad,
+        producto: _id,
+      });
+      await detallePedido.save();
+    });
+
     res.status(200).json({
       success: true,
       data: pedidoUpdated,
+      productos:detallePedido,
     });
   } catch (error) {
     res.status(500).json({
@@ -236,4 +289,5 @@ module.exports = {
   getPedidosByIdUser,
   getPedidoById,
   updatePedido,
+  getPedidoByStatus,
 };

@@ -11,7 +11,8 @@ const { crearProducto,
     stockDecrementar,
     stockIncrementar,
     agregarFavorito,
-    obtenerFavoritos} = require('../controllers/productos');
+    obtenerFavoritos,
+    obtenerProductoPorNombre} = require('../controllers/productos');
 
 const {
     existeCategoria,
@@ -56,6 +57,16 @@ router.get('/:id',
         validarCampos
     ]
     , obtnerProducto)
+
+// buscar productos por nombre
+router.get('/:nombre',
+    [
+        check('nombre', "El nombre del producto no es valido").not().isEmpty(),
+        check('nombre').custom(existeProducto),
+        validarCampos
+    ],
+    obtenerProductoPorNombre
+)
 
 // get productos por usuario
 router.get('/user/:id',
@@ -123,6 +134,7 @@ router.put('/stock/decrementar/:id', [
     validarJWT,
     check('id', "El id del producto no es ID valido").isMongoId(),
     check('id').custom(existeProducto),
+    check('cantidad', "La cantidad no es valida").isNumeric(),
     // check("disponible", "El disponible es obligatorio").not().isEmpty(),
     validarCampos
 ], stockDecrementar)
@@ -131,6 +143,7 @@ router.put('/stock/incrementar/:id', [
     validarJWT,
     check('id', "El id del producto no es ID valido").isMongoId(),
     check('id').custom(existeProducto),
+    check('cantidad', "La cantidad no es valida").isNumeric(),
     // check("disponible", "El disponible es obligatorio").not().isEmpty(),
     validarCampos
 ], stockIncrementar)
