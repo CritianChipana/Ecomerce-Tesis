@@ -24,7 +24,7 @@ const PedidoSchema = Schema({
     },
     status: {
         type: String,
-        default: "por pedir",
+        default: "ordenado",
         required: true
     },
     usuario: {
