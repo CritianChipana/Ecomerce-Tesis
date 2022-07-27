@@ -48,7 +48,7 @@ router.get('/refresh/:id',
     ]
     , getPedidoById);
 
-router.put('/status',
+router.put('/status/:id',
     [
         validarJWT,
         check("id", "El id no es valido").isMongoId(),

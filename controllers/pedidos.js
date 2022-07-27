@@ -180,6 +180,8 @@ const updateStatusPedido = async (req = request, res = response) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
+    console.log(id)
+    console.log(status)
 
     const pedido = await Pedido.findById(id);
 
